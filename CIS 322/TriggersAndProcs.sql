@@ -1,0 +1,429 @@
+DROP TABLE MC_ACTIVE_MEMBER CASCADE CONSTRAINTS;
+DROP TABLE MC_CLUB CASCADE CONSTRAINTS;
+DROP TABLE MC_CLUB_MBR_TRANSACTION CASCADE CONSTRAINTS;
+DROP SEQUENCE MC_ST_ID_SEQ;
+
+CREATE TABLE MC_CLUB
+( 
+CLUB_CODE          NUMBER   (5)     CONSTRAINT MC_CLUB_CLUBCD_PK PRIMARY KEY,  
+CLUB_NAME          VARCHAR2 (30)    NOT NULL    ,
+--CLUB_DESC          VARCHAR2 (50)              ,
+CHARTER_EXP_DATE   DATE             NOT NULL    , 
+ANNUAL_DUES        NUMBER   (5,2) NOT NULL      ,
+CAMPUS_BLDG        VARCHAR2 (20)  NOT NULL    
+);
+
+
+CREATE TABLE MC_ACTIVE_MEMBER
+(
+STUDENT_ID         NUMBER   (5)  CONSTRAINT MC_ACTMBR_STD_ID_PK PRIMARY KEY,       
+FIRST_NAME         VARCHAR2(20)  NOT NULL   ,
+LAST_NAME          VARCHAR2(25)  NOT NULL   ,
+EXP_DATE           DATE                       
+);
+
+
+CREATE TABLE MC_CLUB_MBR_TRANSACTION
+(
+CLUB_CODE         NUMBER           (5)                  ,
+STUDENT_ID        NUMBER           (5)                  ,
+DUES_PAID_TO_DATE NUMBER           (7,2)  DEFAULT 0     ,
+DUES_DUE          NUMBER           (7,2)  DEFAULT 0     ,
+  CONSTRAINT MC_MBR2CLUB_PK_CL_ST_ID PRIMARY KEY (CLUB_CODE, STUDENT_ID),
+  CONSTRAINT MC_MBR2CLUB_FK_CLUB_ID FOREIGN KEY (CLUB_CODE) REFERENCES MC_CLUB (CLUB_CODE),
+  CONSTRAINT MC_MBR2CLUB_FK_STUD_ID FOREIGN KEY (STUDENT_ID) REFERENCES MC_ACTIVE_MEMBER (STUDENT_ID)
+);
+
+
+INSERT INTO MC_CLUB
+( 
+CLUB_CODE                                 ,           
+CLUB_NAME                                 ,
+--CLUB_DESC                               ,
+CHARTER_EXP_DATE                          ,
+ANNUAL_DUES                               ,
+CAMPUS_BLDG                             
+)
+VALUES
+(
+  00100                                   ,
+  'Under-Water Basket Weavers'            ,
+--  'We hold ''em and fold ''em'          ,
+   TO_DATE('Jan 02, 2018','Mon DD, YYYY') ,
+ 195                                      ,
+ 'Noss Hall'
+);
+
+INSERT INTO MC_CLUB
+( CLUB_CODE,  CLUB_NAME,  CHARTER_EXP_DATE, ANNUAL_DUES, CAMPUS_BLDG)
+VALUES
+(00225, 'Yard Sale Skiers', TO_DATE('Aug 31, 2020','Mon DD, YYYY'), 400, 'Keystone');
+
+INSERT INTO MC_CLUB
+( CLUB_CODE,  CLUB_NAME,  CHARTER_EXP_DATE, ANNUAL_DUES, CAMPUS_BLDG)
+VALUES
+( 00300,  'Drunkards Anonymous', TO_DATE('Dec 31, 2019','Mon DD, YYYY'), 400, 'Keystone' );
+
+INSERT INTO MC_CLUB
+( CLUB_CODE,  CLUB_NAME,  CHARTER_EXP_DATE, ANNUAL_DUES, CAMPUS_BLDG)
+VALUES
+( 00777,  'Strike It Lucky Gamblers', TO_DATE('Dec 31, 2015','Mon DD, YYYY'), 700, 'Natali Center' );
+
+INSERT INTO MC_CLUB
+( CLUB_CODE,  CLUB_NAME,  CHARTER_EXP_DATE, ANNUAL_DUES, CAMPUS_BLDG)
+VALUES
+( 00080,  'The Ancient of Days', TO_DATE('Dec 31, 2010','Mon DD, YYYY'), 250, 'Old Main'  );
+
+Commit;
+
+INSERT INTO MC_ACTIVE_MEMBER
+(
+STUDENT_ID         ,
+FIRST_NAME         ,
+LAST_NAME          ,
+EXP_DATE                 
+)
+VALUES
+(
+ 10010                      ,
+ 'Reed'                     ,
+ 'DaBook'                   ,
+ TO_DATE('Oct 31, 2018','Mon DD, YYYY') 
+);
+
+INSERT INTO MC_ACTIVE_MEMBER
+(
+STUDENT_ID         ,
+FIRST_NAME         ,
+LAST_NAME          ,
+EXP_DATE                
+)
+VALUES
+(
+ 10033                       ,
+ 'Luce'                     ,
+ 'UrPhone'                   ,
+ TO_DATE('Dec 31, 2017','Mon DD, YYYY')
+);
+
+
+INSERT INTO MC_ACTIVE_MEMBER
+( STUDENT_ID  , FIRST_NAME  , LAST_NAME   , EXP_DATE    )
+VALUES
+( 10044, 'Seerey', 'Eslee', TO_DATE('Dec 31, 2020','Mon DD, YYYY'));
+
+INSERT INTO MC_ACTIVE_MEMBER
+( STUDENT_ID  , FIRST_NAME  , LAST_NAME   , EXP_DATE      )
+VALUES
+( 10055, 'Iza', 'Hacker', TO_DATE('May 31, 2018','Mon DD, YYYY') );
+
+INSERT INTO MC_ACTIVE_MEMBER
+( STUDENT_ID  , FIRST_NAME  , LAST_NAME   , EXP_DATE      )
+VALUES
+( 10066, 'Chad', 'Derbox', TO_DATE('Aug 31, 2018','Mon DD, YYYY') );
+
+INSERT INTO MC_ACTIVE_MEMBER
+( STUDENT_ID  , FIRST_NAME  , LAST_NAME   , EXP_DATE     )
+VALUES
+(10099,  'Payfort',  'A''Grade', TO_DATE('Oct 31, 2018','Mon DD, YYYY') );
+
+INSERT INTO MC_ACTIVE_MEMBER
+(STUDENT_ID  , FIRST_NAME  , LAST_NAME   , EXP_DATE      )
+VALUES
+( 10090  , 'Stellon'  , 'Hurfone'   , TO_DATE('Dec 31, 2018','Mon DD, YYYY') );
+
+INSERT INTO MC_ACTIVE_MEMBER
+( STUDENT_ID  , FIRST_NAME  , LAST_NAME   , EXP_DATE     )
+VALUES
+( 10088, 'KaRye', 'Babee', TO_DATE('Dec 31, 2017','Mon DD, YYYY') );
+
+INSERT INTO MC_ACTIVE_MEMBER
+( STUDENT_ID  , FIRST_NAME  , LAST_NAME   , EXP_DATE     )
+VALUES
+( 10080, 'Duayne', 'Better', TO_DATE('Mar 31, 2018','Mon DD, YYYY') );
+
+INSERT INTO MC_ACTIVE_MEMBER
+( STUDENT_ID  , FIRST_NAME  , LAST_NAME   , EXP_DATE      )
+VALUES
+( 00099, 'Warry', 'Gone', TO_DATE('Dec 31, 1988','Mon DD, YYYY') );
+
+COMMIT;
+
+INSERT INTO MC_CLUB_MBR_TRANSACTION
+(
+CLUB_CODE                ,
+STUDENT_ID               ,
+DUES_PAID_TO_DATE              
+)
+VALUES
+(
+  00225                      ,
+  10010                      ,
+  00100
+);
+
+
+INSERT INTO MC_CLUB_MBR_TRANSACTION
+( CLUB_CODE, STUDENT_ID , DUES_PAID_TO_DATE )
+VALUES
+( 00300, 10033,  100 );
+
+INSERT INTO MC_CLUB_MBR_TRANSACTION
+( CLUB_CODE, STUDENT_ID , DUES_PAID_TO_DATE )
+VALUES
+( 00225, 10044, 150 );
+
+INSERT INTO MC_CLUB_MBR_TRANSACTION
+( CLUB_CODE, STUDENT_ID , DUES_PAID_TO_DATE )
+VALUES
+( 00225, 10055, 125 );
+
+INSERT INTO MC_CLUB_MBR_TRANSACTION
+( CLUB_CODE, STUDENT_ID , DUES_PAID_TO_DATE )
+VALUES
+( 00100, 10066,  0 );
+
+INSERT INTO MC_CLUB_MBR_TRANSACTION
+( CLUB_CODE, STUDENT_ID , DUES_PAID_TO_DATE )
+VALUES
+( 00225, 10099,  100 );
+
+INSERT INTO MC_CLUB_MBR_TRANSACTION
+( CLUB_CODE, STUDENT_ID , DUES_PAID_TO_DATE )
+VALUES
+( 00300, 10090,  250 );
+
+INSERT INTO MC_CLUB_MBR_TRANSACTION
+( CLUB_CODE, STUDENT_ID , DUES_PAID_TO_DATE )
+VALUES
+( 00225, 10088,  75 );
+
+INSERT INTO MC_CLUB_MBR_TRANSACTION
+( CLUB_CODE, STUDENT_ID , DUES_PAID_TO_DATE )
+VALUES
+( 00225, 10080,  100 );
+
+INSERT INTO MC_CLUB_MBR_TRANSACTION
+( CLUB_CODE, STUDENT_ID , DUES_PAID_TO_DATE )
+VALUES
+( 00100, 00099, 50 );
+
+COMMIT;
+
+SET SERVEROUTPUT ON; 
+ 
+
+-- #3 
+-- Analyze the code for the  updatable  view that has been given to you.  
+-- Insert the same code here to create the view.  You will need this.
+-- 
+-- CREATE UPDATABLE VIEW
+
+CREATE OR REPLACE VIEW MC_TRAN_V
+	AS SELECT
+		CT.CLUB_CODE		,
+		CT.STUDENT_ID		,
+			CB.ANNUAL_DUES	,
+		CT.DUES_PAID_TO_DATE,
+			DUES_DUE
+	FROM MC_CLUB_MBR_TRANSACTION CT,
+		MC_CLUB CB
+	WHERE CT.CLUB_CODE= CB.CLUB_CODE;	
+	
+	  
+
+--  end of code for updatable view
+
+
+ 
+-- #4
+-- PRODUCE INTITAL REPORT WITH DEFAULT DUES DUE
+-- Insert your MC_PROC_STUDENT_CLUBS procedure code here    
+--
+
+CREATE OR REPLACE PROCEDURE MC_PROC_STUDENT_CLUBS
+AS
+	W_FIRST_NAME	MC_ACTIVE_MEMBER.FIRST_NAME%TYPE;
+	W_LAST_NAME 	MC_ACTIVE_MEMBER.LAST_NAME%TYPE;
+	W_CLUB_NAME	MC_CLUB.CLUB_NAME%TYPE;
+	W_ANNUAL_DUES	MC_CLUB.ANNUAL_DUES%TYPE;
+	W_DUES_PAID	MC_CLUB_MBR_TRANSACTION.DUES_PAID_TO_DATE%TYPE;
+	W_DUES_DUE	MC_CLUB_MBR_TRANSACTION.DUES_DUE%TYPE;
+	STUDENT_COUNTER NUMBER(8) := 0;
+	CURSOR STUDENT_CLUB_CURSOR
+	IS
+		SELECT
+			AM.FIRST_NAME,
+			AM.LAST_NAME, 
+			CL.CLUB_NAME,
+			CL.ANNUAL_DUES,
+			CT.DUES_PAID_TO_DATE,
+			CT.DUES_DUE
+		FROM
+			MC_ACTIVE_MEMBER AM,
+			MC_CLUB CL,
+			MC_CLUB_MBR_TRANSACTION CT
+		WHERE
+			CT.CLUB_CODE=CL.CLUB_CODE
+			AND
+			CT.STUDENT_ID = AM.STUDENT_ID;
+	BEGIN
+		DBMS_OUTPUT.PUT_LINE('*****   STUDENT CLUBS AND DUES REPORT   *****');
+		DBMS_OUTPUT.PUT_LINE(' ');
+		OPEN STUDENT_CLUB_CURSOR;
+			LOOP
+				FETCH
+					STUDENT_CLUB_CURSOR
+				INTO
+					W_FIRST_NAME	,
+					W_LAST_NAME	,
+					W_CLUB_NAME	,
+					W_ANNUAL_DUES	,
+					W_DUES_PAID	,
+					W_DUES_DUE	;
+				EXIT WHEN STUDENT_CLUB_CURSOR%NOTFOUND;
+				
+				DBMS_OUTPUT.PUT_LINE('Student:  '||W_FIRST_NAME||' '||W_LAST_NAME||' shows the following balances for the '||W_CLUB_NAME||' club, having annual dues of '||TO_CHAR(W_ANNUAL_DUES,'$999.99')||CHR(10)||CHR(9)||' PAID:  '||TO_CHAR(W_DUES_PAID,'$999.99')||' STILL DUE:  '||TO_CHAR(W_DUES_DUE,'$999.99'));
+				STUDENT_COUNTER := STUDENT_COUNTER + 1;
+			END LOOP;
+		DBMS_OUTPUT.PUT_LINE('');
+		DBMS_OUTPUT.PUT_LINE('*****   A total of '||STUDENT_COUNTER||' students processed.   *****');
+	CLOSE STUDENT_CLUB_CURSOR;
+	END;
+	/
+
+	
+--
+-- end of procedure code
+--
+
+
+-- #4 - part-b
+-- Insert your execute statement for EXECUTE MC_PROC_STUDENT_CLUBS  
+--
+
+EXECUTE MC_PROC_STUDENT_CLUBS;
+
+ 
+--
+-- end of execute
+--
+
+
+-- #5
+-- Trigger to update table through view after insert or update to transaction table.  
+-- Write your TRG_MC_UPD_DUES code and place it here.    
+--
+ 
+CREATE OR REPLACE TRIGGER TRG_MC_UPD_DUES
+AFTER INSERT OR UPDATE OF DUES_PAID_TO_DATE ON MC_CLUB_MBR_TRANSACTION
+BEGIN
+	UPDATE MC_TRAN_V
+		SET
+		DUES_DUE = ANNUAL_DUES - DUES_PAID_TO_DATE;  
+END;
+/
+ 
+
+-- 
+-- end of trigger
+--
+
+
+-- #6
+-- Insert your MC_ST_ID_SEQ sequence code here.    
+--
+
+CREATE SEQUENCE MC_ST_ID_SEQ
+START WITH 20010
+INCREMENT BY 10
+NOCACHE
+NOCYCLE;
+
+
+-- 
+-- end of sequence code
+--
+
+
+
+-- #7
+-- Insert your MC_PROC_STUDENT_ADD to insert new records into MC_ACTIVE_MEMBER.
+-- Add your code here.  
+-- 
+
+CREATE OR REPLACE PROCEDURE MC_PROC_STUDENT_ADD
+(
+W_FIRST_NAME 	IN 	VARCHAR2,
+W_LAST_NAME 	IN	VARCHAR2,
+W_EXP_DATE	IN	DATE
+)
+AS
+BEGIN
+	INSERT INTO MC_ACTIVE_MEMBER
+	VALUES(
+		MC_ST_ID_SEQ.NEXTVAL	,
+		W_FIRST_NAME		,
+		W_LAST_NAME		,
+		W_EXP_DATE
+	      );
+COMMIT;
+DBMS_OUTPUT.PUT_LINE('Insert to MC_ACTIVE_MEMBER successful!');
+END;
+/
+
+
+
+--
+-- end of procedure code
+--
+
+
+-- #7 part-b
+-- Insert your execute statement for MC_PROC_STUDENT_ADD to add yourself per directions on the worksheet.
+-- Be sure to do a date conversion as you are inserting an input string into a date field.   
+--
+
+EXEC MC_PROC_STUDENT_ADD('Andrew', 'Spate', TO_DATE('31-DEC-2018', 'DD-MON-YYYY'));
+
+ 
+--
+-- end of execute
+--
+ 
+ 
+-- #8
+-- Insert a record into the MC_CLUB_MBR_TRANSACTION table that WITH YOUR NEW RECORD AS HAVING JOINED CLUB_CODE = 777
+-- has the proper, associated info for new record except for DUES_DUE.  Commit your record.  
+-- THIS INSERT TO THE TRANSACTION TABLE WILL CAUSE YOUR TRG_MC_UPD_DUES TRIGGER TO FIRE AND UPDATE THE DUES DUE. 
+-- 
+ 
+INSERT INTO MC_CLUB_MBR_TRANSACTION
+(
+CLUB_CODE	, 
+STUDENT_ID	, 
+DUES_PAID_TO_DATE
+)
+VALUES
+(
+00777	,
+20010	,
+300	
+);
+COMMIT;
+
+
+ 
+-- #9
+-- Insert your execute statement for MC_PROC_STUDENT_CLUBS again to show the updated report - note the new dues due amounts.   
+--
+
+ 
+EXECUTE MC_PROC_STUDENT_CLUBS;
+
+ 
+--
+-- end of execute
+--
+
+--******************  END OF FILE ************************
